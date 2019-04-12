@@ -2,7 +2,7 @@
 
 var inquirer = require('inquirer');
 var mysql = require('mysql');
-const cTable = require('console.table');
+var cTable = require('console.table');
 
 
 var connection = mysql.createConnection({
@@ -62,16 +62,39 @@ function afterConnection() {
 // Based on selected item run Products for Sale
 // The function (Read) should list every available item: the item IDs, names, prices, and quantities.
 function productSales() {
-    console.log("successfully ran product sales function");
-    anotherTask();
+    // console.log("successfully ran product sales function");
+
+    connection.query("SELECT * FROM products", function (err, result) {
+        if (err) throw err;
+        console.table(result);
+        console.log("--------------------------------------------------------------------");
+        console.log("--------------------------------------------------------------------");
+        anotherTask();
+    });
+
 };
 
 
 // Based on selected item run Low Inventory
 // The function (Read) should list all items with an inventory count lower than five.
 function lowInventory() {
-    console.log("successfully ran low inventory function");
-    anotherTask();
+
+    connection.query("SELECT * FROM products WHERE stock_quantity < 5", function (err, result) {
+        if (err) throw err;
+        if (result == "") {
+            console.table("All inventories are sufficient!");
+            console.log("--------------------------------------------------------------------");
+            console.log("--------------------------------------------------------------------");
+            anotherTask();
+        } else if (result !== "") {
+            console.table(result);
+            console.log("--------------------------------------------------------------------");
+            console.log("--------------------------------------------------------------------");
+            anotherTask();
+        };
+
+    });
+
 
 };
 
@@ -80,8 +103,37 @@ function lowInventory() {
 // The function (Update) should display a prompt that will let the manager "add more" of any item currently in the store.
 function addInventory() {
     console.log("successfully ran add inventory function");
-    anotherTask();
 
+    connection.query("SELECT * FROM products", function (err, result) {
+        if (err) throw err;
+        console.table(result);
+
+        inquirer
+            .prompt([
+                {
+                    name: "updated_item",
+                    type: "input",
+                    message: "Please enter the id of the item that you would like to update:",
+                },
+                {
+                    name: "updated_quantity",
+                    type: "input",
+                    message: "Please enter the quantity of the item that you would like to add:",
+                },
+            ])
+            .then(answers => {
+                // console.log(answers.updated_item);
+                // console.log(answers.updated_quantity);
+                connection.query("UPDATE products SET stock_quantity = stock_quantity + ? WHERE item_id = ?", 
+                [parseInt(answers.updated_quantity), answers.updated_item]
+                , function (err, result) {
+                    console.log("Successfully updated inventory with the addition of " + answers.updated_quantity + " units.");
+                    console.log("--------------------------------------------------------------------");
+                    console.log("--------------------------------------------------------------------");
+                    anotherTask();
+                });
+            });
+    });
 };
 
 
@@ -95,7 +147,7 @@ function addProduct() {
 
 // Prompt the user to add a selection
 function anotherTask() {
-    console.log("successfully ran another task function");
+    // console.log("successfully ran another task function");
     inquirer
         .prompt([
             {
