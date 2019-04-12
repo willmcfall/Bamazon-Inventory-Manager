@@ -124,14 +124,14 @@ function addInventory() {
             .then(answers => {
                 // console.log(answers.updated_item);
                 // console.log(answers.updated_quantity);
-                connection.query("UPDATE products SET stock_quantity = stock_quantity + ? WHERE item_id = ?", 
-                [parseInt(answers.updated_quantity), answers.updated_item]
-                , function (err, result) {
-                    console.log("Successfully updated inventory with the addition of " + answers.updated_quantity + " units.");
-                    console.log("--------------------------------------------------------------------");
-                    console.log("--------------------------------------------------------------------");
-                    anotherTask();
-                });
+                connection.query("UPDATE products SET stock_quantity = stock_quantity + ? WHERE item_id = ?",
+                    [parseInt(answers.updated_quantity), answers.updated_item]
+                    , function (err, result) {
+                        console.log("Successfully updated inventory with the addition of " + answers.updated_quantity + " units.");
+                        console.log("--------------------------------------------------------------------");
+                        console.log("--------------------------------------------------------------------");
+                        anotherTask();
+                    });
             });
     });
 };
@@ -141,7 +141,47 @@ function addInventory() {
 // The function (Insert) should allow the manager to add a completely new product to the store.
 function addProduct() {
     console.log("successfully ran add product function");
-    anotherTask();
+
+    connection.query("SELECT * FROM products", function (err, result) {
+        if (err) throw err;
+        console.table(result);
+
+        inquirer
+            .prompt([
+                {
+                    name: "added_product",
+                    type: "input",
+                    message: "Please enter the kind of product would you like to add:",
+                },
+                {
+                    name: "added_category",
+                    type: "input",
+                    message: "Please enter the category of the added product:",
+                },
+                {
+                    name: "added_price",
+                    type: "input",
+                    message: "Please enter the price of the added product:",
+                },
+                {
+                    name: "added_quantity",
+                    type: "input",
+                    message: "Please enter the quantity of the product that you would like to add:",
+                },
+            ])
+            .then(answers => {
+                connection.query("",
+                    [parseInt(answers.updated_quantity), answers.updated_item]
+                    , function (err, result) {
+                        console.log("Successfully added product, " + answers.added_product + ", to the database.");
+                        console.log("--------------------------------------------------------------------");
+                        console.log("--------------------------------------------------------------------");
+                        anotherTask();
+                    });
+            });
+
+        anotherTask();
+    });
 
 };
 
@@ -166,4 +206,5 @@ function anotherTask() {
                 console.log("Ok. Goodbye!");
             }
         });
+
 };
