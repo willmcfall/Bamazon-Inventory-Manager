@@ -102,7 +102,8 @@ function totalCost(answers, integerAnswer){
         .then(answers => {
             
             if(answers.reorder == "Yes"){
-               orderRequest();
+            console.log("---------------------------------------------------------------------------------------");
+               afterConnection();
             }
             else if (answers.reorder == "No"){
                 console.log("Ok. Goodnight!");
