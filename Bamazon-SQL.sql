@@ -26,3 +26,29 @@ VALUES ("Jerry Cans", "WASH", "7.35", "1123");
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Soap", "WASH", "2.10", "3423");
+
+
+USE bamazon_db;
+
+CREATE TABLE departments (
+  department_id INT NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(45) NOT NULL,
+  over_head_costs INTEGER(10) NOT NULL,
+  PRIMARY KEY (department_id)
+);
+
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("WASH", "10000");
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Shelter", "727342");
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("DRR", "34556");
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Livelihoods", "23526");
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Health", "34803");
