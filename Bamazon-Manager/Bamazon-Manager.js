@@ -170,8 +170,8 @@ function addProduct() {
                 },
             ])
             .then(answers => {
-                connection.query("",
-                    [parseInt(answers.updated_quantity), answers.updated_item]
+                connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?, ?, ?, ?)",
+                    [answers.added_product, answers.added_category, parseFloat(answers.added_price), parseInt(answers.added_quantity)]
                     , function (err, result) {
                         console.log("Successfully added product, " + answers.added_product + ", to the database.");
                         console.log("--------------------------------------------------------------------");
@@ -179,10 +179,7 @@ function addProduct() {
                         anotherTask();
                     });
             });
-
-        anotherTask();
     });
-
 };
 
 // Prompt the user to add a selection
