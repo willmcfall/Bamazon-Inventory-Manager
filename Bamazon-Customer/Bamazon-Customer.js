@@ -35,7 +35,7 @@ function afterConnection() {
 
     var itemChoices = []
     connection.query(
-        "SELECT * FROM products", function (err, res) {
+        "SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function (err, res) {
             console.log()
             for (var i = 0; i < res.length; i++) {
                 itemChoices.push(res[i]);
@@ -102,6 +102,7 @@ function totalCost(answers, integerAnswer){
             totalCost = totalCost.toFixed(2);
 
             console.log("The total cost of your order is $" + totalCost + ".");
+            updateSales(answers, totalCost);
 
             inquirer
         .prompt([
@@ -151,4 +152,14 @@ function updateTable(integerQuantity, integerAnswer, answers){
 };
 
 
+function updateSales(answers, totalCost){
+
+     connection.query(
+        "UPDATE products SET product_sales = product_sales + ? WHERE item_id = ?",
+        [ totalCost , answers.selection],
+        function(err, res) {
+        //   console.log("Updated successfully");
+        }
+      );    
+};
 
