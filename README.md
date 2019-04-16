@@ -4,9 +4,6 @@
 
 This app is an inventory management system that allows for processing of orders from customers, management of inventories by managers, and summary reports by supervisors. This app runs entirely in the terminal and runs using Node.JS as well as numerous Node Modules including Inquirer and MySqL.
 
-
-## Instructions
-
 ### Customer View
 
 This application runs within the terminal and is initiated by entering the command "node Bamazon-Customer.js". The user will then be provided a prompt with two messages, the first asks the user the ID of the product they would like to buy, and the second asks how many units of the product they would like to buy.  Once the user has placed the order, the application checks if the store has enough of the product to meet the customer's request and if not, the app does not allow processing of the order.  However, if the store does have enough of the product, you the customer's order is filled.
